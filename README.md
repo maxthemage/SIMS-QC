@@ -1,0 +1,1 @@
+ "This is what I have so far. Looks underwhelming and the account image has these lines around it when I use it in Tkinter. Think I should add something else? Like colors? Maybe make it like the other login page. Anyways I'm sending it your way now. GGs."
