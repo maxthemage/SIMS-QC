@@ -10,6 +10,7 @@ root.title("SIMS-QC")
 root.iconbitmap("images/logo.ico")
 root.geometry("360x480")
 root.config(bg="#ffffff")
+root.resizable(width=False, height=False)
 
 
 #UI widgets in order of display
