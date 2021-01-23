@@ -45,8 +45,8 @@ def submit():
 #UI widgets in order of display
 sims = Label(root, text="SIMS-QC", bg="#ffffff", font=("Times New Roman", 25), pady=5)
 padding_one = Label(root, text="", padx=37, bg="#ffffff")
-account_icon = ImageTk.PhotoImage(Image.open("images/account.jpg"))
-account_img = Label(image=account_icon)
+account_icon = ImageTk.PhotoImage(Image.open("images/account.png"))
+account_img = Label(image=account_icon, bg="#ffffff")
 log_in = Label(root, text="Log In", bg="#ffffff", pady=5, font=("Arial", 25))
 padding_two = Label(root, text="", bg="#ffffff")
 teacher_id = Label(root, text="Teacher ID", bg="#ffffff", font=("Arial", 14))
