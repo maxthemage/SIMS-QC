@@ -5,7 +5,6 @@ Note: Tell me what you think of the new sign in window.
 You can check it out but I'm just pushing the changes so it's not done
 
 Oh btw found a tutorial on how to link tkinter and mysql using mysql connector for a database 
-
-in a restaurant. Pretty similar to ours. You can check it out if you wanna.
+in a restaurant. Pretty similar to ours. Was helpful. You can check it out if you wanna.
 
 https://youtu.be/dQw4w9WgXcQ
