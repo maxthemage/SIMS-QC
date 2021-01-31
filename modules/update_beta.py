@@ -3,8 +3,19 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
+import time
 
 def updateStudent():
+    def clearFields():
+        student_entry.delete(0, END)
+        fname_entry.delete(0, END)
+        lname_entry.delete(0, END)
+        gender_entry.delete(0, END)
+        dob_entry.delete(0, END)
+        address_entry.delete(0, END)
+        email_entry.delete(0, END)
+        contact_entry.delete(0, END)
+        enrol_entry.delete(0, END)
 
     def update():
         sid = student_entry.get()
@@ -16,6 +27,17 @@ def updateStudent():
         email = email_entry.get()
         contact = contact_entry.get()
         enrol_date = enrol_entry.get()
+        values = [sid, fname, lname, gender, dob, address, email, contact, enrol_date]
+        if sid == "":
+            messagebox.showerror("Error", "SID field cannot be empty")
+        else:
+            clearFields()
+            messagebox.showinfo("Info", "Student record was successfully updated")
+            pass
+        for i in range(len(values)):
+            if values[i] != "":
+                pass
+        
 
     root = Toplevel()
     root.title("Update Student Record")
@@ -48,7 +70,7 @@ def updateStudent():
     enrol_entry_title = Label(frame, text="Enrol. Date: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     enrol_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Update", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=update)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
     title.grid(column=0, row=0, sticky=W)
@@ -79,6 +101,16 @@ def updateStudent():
     root.mainloop()
 
 def updatePerformance():
+    def clearFields():
+        sid_entry.delete(0, END)
+        subject_entry.delete(0, END)
+        subject_teacherid_entry.delete(0, END)
+        course_grade1_entry.delete(0, END)
+        course_grade2_entry.delete(0, END)
+        course_grade3_entry.delete(0, END)
+        exam_entry.delete(0, END)
+        comments_entry.delete(0, END)
+        
     def update():
         sid = sid_entry.get()
         subject = subject_entry.get()
@@ -87,7 +119,18 @@ def updatePerformance():
         grade_two = course_grade2_entry.get()
         grade_three = course_grade3_entry.get()
         exam_grade = exam_entry.get()
-        comments = comments_entry.get()    
+        comments = comments_entry.get()
+        values = [sid, subject, tid, grade_one, grade_two, grade_three, exam_grade, comments]
+        if sid == "":
+            messagebox.showerror("Error", "SID field cannot be empty")
+        else:
+            clearFields()
+            messagebox.showinfo("Info", "Performance record was successfully updated")
+            pass
+        for i in range(len(values)):
+            if values[i] != "":
+                pass
+
 
     root = Toplevel()
     root.title("Update Performance Record")
@@ -119,7 +162,7 @@ def updatePerformance():
     comments_entry_title = Label(frame, text="Comments: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     comments_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     update_btn = Button(frame, text="Update", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=update)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
     title.grid(column=0, row=0, sticky=W)
@@ -149,6 +192,17 @@ def updatePerformance():
 
 
 def updateTeacher():
+    def clearFields():
+        tid_entry.delete(0, END)
+        password_entry.delete(0, END)
+        fname_entry.delete(0, END)
+        address_entry.delete(0, END)
+        employ_date_entry.delete(0, END)
+        qual_entry.delete(0, END)
+        email_entry.delete(0, END)
+        department_entry.delete(0, END)
+    
+        
     def update():
         tid = tid_entry.get()
         password = password_entry.get()
@@ -159,7 +213,17 @@ def updateTeacher():
         qualifications = qual_entry.get()
         email = email_entry.get()
         department = department_entry.get()
-    
+        values = [tid, password, fname, lname, address, employ_date, qualifications, email, department]
+        if tid == "":
+            messagebox.showerror("Error", "TID field cannot be empty")
+        else:
+            clearFields()
+            messagebox.showinfo("Info", "Teacher record was successfully updated")
+            pass
+        for i in range(len(values)):
+            if values[i] != "":
+                pass
+
     root = Toplevel()
     root.title("Update Teacher Record")
     root.geometry("750x600")
@@ -192,7 +256,7 @@ def updateTeacher():
     department_entry_title = Label(frame, text="Department: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     department_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Update", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=update)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
     title.grid(column=0, row=0, sticky=W)
