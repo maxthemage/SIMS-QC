@@ -16,7 +16,7 @@ def retrieveTeacher(TeacherID):
 
     cursor = db.cursor()
 
-    cursor.execute("SELECT * FROM teacherinfo WHERE TeacherID = "+str(TeacherID)")
+    cursor.execute("SELECT * FROM teacherinfo WHERE TeacherID = "+str(TeacherID))
 
     records = cursor.fetchall()
 
@@ -38,7 +38,7 @@ def retrievestudent(StudentID):
 
     cursor = db.cursor()
 
-    cursor.execute("SELECT * FROM studentinfo WHERE StudentID ="+str(StudentID)")
+    cursor.execute("SELECT * FROM studentinfo WHERE StudentID ="+str(StudentID))
 
     records = cursor.fetchall()
 
@@ -83,8 +83,8 @@ def retrievegradereport(StudentID, CurrentYear, CurrentTerm):
     cursor = db.cursor()
 
     cursor.execute("""SELECT CONCAT(studentinfo.FirstName, " ", studentinfo.Surname) AS FullName,
-                    gradeinfo.Coursework_Avg, gradeinfo.ExamGrade
-                    FROM studentinfo, gradeinfo
+                    courseinfo.CourseName, gradeinfo.Coursework_Avg, gradeinfo.ExamGrade
+                    FROM studentinfo, gradeinfo INNER JOIN courseinfo USING (CourseID)
                     WHERE studentID ="""+str(StudentID)+" "+"AND CurrentYear ="+str(CurrentYear)+" "+"AND CurrentTerm ="+str(CurrentTerm))
 
     records = cursor.fetchall()
@@ -206,4 +206,26 @@ def schoolperformance3():
     return records
 
 
+def verifylogin(TeacherID, TPassword):
+
+    db.mysql.connect(
+        host = database["host"],
+        user = database["user"],
+        password = database["password"],
+        database = database["schema"]
+    )
+
+    cursor = db.cursor()
+
+    sql = "SELECT TeacherID, Usertype FROM teacherinfo WHERE TeacherID = %s AND TPassword= md5(%s) AND active = TRUE"
     
+    val = (TeacherID, TPassword)
+
+    cursor.execute(sql, val)
+
+    records = cursor.fetchall()
+
+    db.commit()
+    db.close()
+
+    return records
