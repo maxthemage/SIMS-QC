@@ -6,7 +6,17 @@ from PIL import ImageTk, Image
 
 
 def createWindow():
-
+    def clearFields():
+        student_entry.delete(0, END)
+        fname_entry.delete(0, END)
+        lname_entry.delete(0, END)
+        gender_entry.delete(0, END)
+        dob_entry.delete(0, END)
+        address_entry.delete(0, END)
+        email_entry.delete(0, END)
+        contact_entry.delete(0, END)
+        enrol_entry.delete(0, END)
+     
     def submit():
         sid = student_entry.get()
         fname = fname_entry.get()
@@ -17,11 +27,12 @@ def createWindow():
         email = email_entry.get()
         contact = contact_entry.get()
         enrol_date = enrol_entry.get()
-        if sid or fname or lname or gender or dob or address or email or contact or enrol_date == "":
+        if (sid or fname or lname or gender or dob or address or email or contact or enrol_date) == "":
             messagebox.showerror("Error", "All fields must be filled")
         else:
+            clearFields()
+            messagebox.showinfo("Info", "Student record was successfully created")
             pass
-        
 
     root = Toplevel()
     root.title("Create Student Record")
@@ -55,7 +66,7 @@ def createWindow():
     enrol_entry_title = Label(frame, text="Enrol. Date: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     enrol_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
     title.grid(column=0, row=0, sticky=W)
@@ -87,6 +98,17 @@ def createWindow():
     root.mainloop()
 
 def createPerformanceWindow():
+    def clearFields():
+        sid_entry.delete(0, END)
+        subject_entry.delete(0, END)
+        subject_teacherid_entry.delete(0, END)
+        course_grade1_entry.delete(0, END)
+        course_grade2_entry.delete(0, END)
+        course_grade3_entry.delete(0, END)
+        exam_entry.delete(0, END)
+        comments_entry.delete(0, END)
+        
+        
     def submit():
         sid = sid_entry.get()
         subject = subject_entry.get()
@@ -96,12 +118,13 @@ def createPerformanceWindow():
         grade_three = course_grade3_entry.get()
         exam_grade = exam_entry.get()
         comments = comments_entry.get()
-        if sid or subject or tid or grade_one or grade_two or grade_three or exam_grade or comments == "":
+        if (sid or subject or tid or grade_one or grade_two or grade_three or exam_grade or comments) == "":
             messagebox.showerror("Error", "All fields must be filled")
         else:
+            clearFields()
+            messagebox.showinfo("Info", "Performance record was successfully created")
             pass
     
-
     root = Toplevel()
     root.title("Create Performance Record")
     root.geometry("750x600")
@@ -132,7 +155,7 @@ def createPerformanceWindow():
     comments_entry_title = Label(frame, text="Comments: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     comments_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
     title.grid(column=0, row=0, sticky=W)
@@ -162,6 +185,17 @@ def createPerformanceWindow():
 
 
 def createTeacherWindow():
+    def clearFields():
+        tid_entry.delete(0, END)
+        password_entry.delete(0, END)
+        fname_entry.delete(0, END)
+        lname_entry.delete(0, END)
+        address_entry.delete(0, END)
+        employ_date_entry.delete(0, END)
+        qual_entry.delete(0, END)
+        email_entry.delete(0, END)
+        department_entry.delete(0, END)
+        
     def submit():
         tid = tid_entry.get()
         password = password_entry.get()
@@ -172,9 +206,11 @@ def createTeacherWindow():
         qualifications = qual_entry.get()
         email = email_entry.get()
         department = department_entry.get()
-        if tid or password or fname or lname or address or employ_date or qualifications or email or department == "":
+        if (tid or password or fname or lname or address or employ_date or qualifications or email or department) == "":
             messagebox.showerror("Error", "All fields must be filled")
         else:
+            clearFields()
+            messagebox.showinfo("Info", "Teacher record was successfully created")
             pass
     
     root = Toplevel()
@@ -209,7 +245,7 @@ def createTeacherWindow():
     department_entry_title = Label(frame, text="Department: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     department_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
     title.grid(column=0, row=0, sticky=W)
