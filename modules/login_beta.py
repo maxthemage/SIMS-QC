@@ -3,6 +3,7 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
+import time
 
 def loginWindow():
     #root configurations
@@ -34,6 +35,7 @@ def loginWindow():
                     global allowed
                     allowed = True
                     root.destroy()
+                    time.sleep(1)
             else:
                 teacherid = teacherid_ent.get()
                 password = password_ent.get()
@@ -43,6 +45,7 @@ def loginWindow():
                 else:
                     allowed = True
                     root.destroy()
+                    time.sleep(1)
 
     #UI widgets in order of display
     sims = Label(root, text="SIMS-QC", bg="#ffffff", font=("Times New Roman", 26), pady=5)
@@ -52,7 +55,7 @@ def loginWindow():
     teacher_id = Label(root, text="Teacher ID", bg="#ffffff", font=("Arial", 14))
     teacherid_ent = Entry(root, width=25, bg="#fafafa", font=("Times New Roman", 12))
     pass_word = Label(root, text="Password", bg="#ffffff", font=("Arial", 14))
-    password_ent = Entry(root, width=25, bg="#fafafa", font=("Times New Roman", 12))
+    password_ent = Entry(root, width=25, bg="#fafafa", font=("Times New Roman", 12), show="*")
     password_con = Label(root, text="Confirm Password", font=("Arial", 14), bg="#ffffff")
     confirm_ent = Entry(root, width=25, bg="#fafafa", font=("Times New Roman", 12))
     submit_btn = Button(root, text="Submit", font=("Arial", 13), bg="#138808", fg="#ffffff", width=7, command=submit)
