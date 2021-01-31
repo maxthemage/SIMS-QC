@@ -5,11 +5,16 @@ from tkinter import messagebox
 from PIL import ImageTk, Image
 
 def deleteStudent():
+    def clearField():
+        student_entry.delete(0, END)
+
     def delete():
         sid = student_entry.get()
         if sid == "":
             messagebox.showerror("Error", "Field cannot be empty")
         else:
+            clearField()
+            messagebox.showinfo("Info", "Student record was successfully deleted")
             pass
         
 
@@ -29,7 +34,7 @@ def deleteStudent():
     student_entry_title = Label(frame, text="Student ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     student_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     delete_btn = Button(frame, text="Delete", font=(13), padx=3, pady=2, bg="#ff0000", fg="#ffffff", command=delete)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearField)
 
 
     title.grid(column=0, row=0, sticky=W)
@@ -43,12 +48,18 @@ def deleteStudent():
 
     root.mainloop()
 
+
 def deletePerformance():
+    def clearField():
+        subject_entry.delete(0, END)
+    
     def delete():
         subject = subject_entry.get()
         if subject == "":
             messagebox.showerror("Error", "Field cannot be empty")
         else:
+            clearField()
+            messagebox.showinfo("Info", "Performance record was successfully deleted")
             pass
         
 
@@ -68,7 +79,7 @@ def deletePerformance():
     subject_entry_title = Label(frame, text="Subject ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     subject_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     delete_btn = Button(frame, text="Delete", font=(13), padx=3, pady=2, bg="#ff0000", fg="#ffffff", command=delete)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearField)
 
 
     title.grid(column=0, row=0, sticky=W)
@@ -84,11 +95,16 @@ def deletePerformance():
 
 
 def deleteTeacher():
+    def clearField():
+        tid_entry.delete(0, END)
+    
     def delete():
         tid = tid_entry.get()
         if tid == "":
             messagebox.showerror("Error", "Field cannot be empty")
         else:
+            clearField()
+            messagebox.showinfo("Info", "Teacher record was successfully deleted")
             pass
         
 
@@ -108,7 +124,7 @@ def deleteTeacher():
     tid_entry_title = Label(frame, text="Teacher ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     tid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     delete_btn = Button(frame, text="Delete", font=(13), padx=3, pady=2, bg="#ff0000", fg="#ffffff", command=delete)
-    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2)
+    cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearField)
 
 
     title.grid(column=0, row=0, sticky=W)
