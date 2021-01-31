@@ -42,7 +42,7 @@ def viewWindow():
     view_teacher_btn = Button(view_frame, text="View Teacher records", font=("Arial", 13), padx=107, pady=15, command=display.displayStudent)
 
     view_frame.grid(column=0, row=0, ipadx=150, ipady=40)
-    back_btn2.grid(column=1, row=1)
+    back_btn2.grid(column=1, row=1, padx=(5,0))
     flogo.grid(column=2, row=2, ipadx=260, pady=(10,0))
     fheading.grid(column=2, row=3)
     view_student_btn.grid(column=2, row=4, pady=(0, 7))
@@ -75,7 +75,7 @@ def deleteWindow():
     delete_teacher_btn = Button(delete_frame, text="Delete Teacher records", font=("Arial", 13), padx=107, pady=15, command=delete.deleteTeacher)
 
     delete_frame.grid(column=0, row=0)
-    back_btn4.grid(column=1, row=1)
+    back_btn4.grid(column=1, row=1, padx=(5,0))
     flogo.grid(column=2, row=2, ipadx=260, pady=(10,0))
     fheading.grid(column=2, row=3)
     delete_student_btn.grid(column=2, row=4, pady=(0, 7))
