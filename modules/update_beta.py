@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
 import time
+from Update import *
 
 def updateStudent():
     def clearFields():
@@ -31,6 +32,7 @@ def updateStudent():
         if sid == "":
             messagebox.showerror("Error", "SID field cannot be empty")
         else:
+            updatestudentinfo(sid, fname, lname, gender, dob, address, contact, enrol_date) #added function
             clearFields()
             messagebox.showinfo("Info", "Student record was successfully updated")
             pass
@@ -112,18 +114,23 @@ def updatePerformance():
         comments_entry.delete(0, END)
         
     def update():
+        gradeid= gradeid_entry.get() # in order to update a grade record, we need the id for that specific record. so gradeid has to be on the page as an entry field.
         sid = sid_entry.get()
-        subject = subject_entry.get()
+        subjectid = subjectid_entry.get() # changed subject to subjectid
         tid = subject_teacherid_entry.get()
+        term = term_entry.get() #added var, create entry field for it
+        year = year_entry.get() #added var, create entry field for it
+        formid = formid_entry.get() #added var, create entry field for it 
         grade_one = course_grade1_entry.get()
         grade_two = course_grade2_entry.get()
         grade_three = course_grade3_entry.get()
         exam_grade = exam_entry.get()
         comments = comments_entry.get()
-        values = [sid, subject, tid, grade_one, grade_two, grade_three, exam_grade, comments]
-        if sid == "":
-            messagebox.showerror("Error", "SID field cannot be empty")
+        values = [gradeid, sid, subjectid, tid, term, year, formid, grade_one, grade_two, grade_three, exam_grade, comments]
+        if gradeid == "":
+            messagebox.showerror("Error", "GRADEID field cannot be empty")
         else:
+            updategradeinfo(gradeid, tid, sid, term, year, formid, grade_one, grade_two, grade_three, exam_grade)
             clearFields()
             messagebox.showinfo("Info", "Performance record was successfully updated")
             pass
@@ -206,17 +213,20 @@ def updateTeacher():
     def update():
         tid = tid_entry.get()
         password = password_entry.get()
+        user_type = user_type_entry.get() # added var, create field for it
         fname = fname_entry.get()
         lname = lname_entry.get()
         address = address_entry.get()
         employ_date = employ_date_entry.get()
         qualifications = qual_entry.get()
         email = email_entry.get()
-        department = department_entry.get()
-        values = [tid, password, fname, lname, address, employ_date, qualifications, email, department]
+        departmentid = departmentid_entry.get() #changed department to departmentid
+        subjectid = subjectid_entry.get() # added var, create field for it
+        values = [tid, password, user_type, fname, lname, address, employ_date, qualifications, email, departmentid, subjectid]
         if tid == "":
             messagebox.showerror("Error", "TID field cannot be empty")
         else:
+            updateteacherinfo(tid, password, user_type, fname, lname, address, employ_date, qualifications, deptartmentid, subjectid)
             clearFields()
             messagebox.showinfo("Info", "Teacher record was successfully updated")
             pass
