@@ -60,13 +60,13 @@ def setupDB():
                         TeacherID INT(7) NOT NULL, 
                         TPassword VARCHAR(500) NOT NULL, 
                         Usertype ENUM('Admin', 'Client') NOT NULL, 
-                        FirstName VARCHAR(20) NOT NULL, 
-                        LastName VARCHAR(20) NOT NULL, 
-                        Address TEXT(40) NOT NULL,
-                        HireDate DATE NOT NULL,
-                        Qualification TEXT(30) NOT NULL,
-                        DepartmentID INT(2) NOT NULL, 
-                        CourseID CHAR(7) NOT NULL,
+                        FirstName VARCHAR(20), 
+                        LastName VARCHAR(20), 
+                        Address TEXT(40),
+                        HireDate DATE,
+                        Qualification TEXT(30),
+                        DepartmentID INT(2), 
+                        CourseID CHAR(7),
                         PRIMARY KEY (TeacherID),
                         FOREIGN KEY (DepartmentID) REFERENCES DeptTable (DepartmentID) ON DELETE CASCADE ON UPDATE CASCADE,
                         FOREIGN KEY (CourseID) REFERENCES CourseInfo (CourseID) ON DELETE CASCADE ON UPDATE CASCADE)""")
@@ -118,34 +118,34 @@ def setupDB():
                         ClassPerformance_Term3""")
     
     cursor.execute("""CREATE VIEW SchoolReport_Term1 AS
-                        SELECT GradeID, TeacherID, StudentID, CurrentTerm, CurrentClass, CurrentYear, OverallGrade
+                        SELECT GradeID, TeacherID, StudentID, CurrentTerm, ClassID, CurrentYear, OverallGrade
                         FROM GradeInfo
                         WHERE CurrentTerm = 1
-                        ORDER BY CurrentYear, CurrentTerm, CurrentClass""")
+                        ORDER BY CurrentYear, CurrentTerm, ClassID""")
     
     cursor.execute("""CREATE VIEW SchoolReport_Term2 AS
-                        SELECT GradeID, TeacherID, StudentID, CurrentTerm, CurrentClass, CurrentYear, OverallGrade
+                        SELECT GradeID, TeacherID, StudentID, CurrentTerm, ClassID, CurrentYear, OverallGrade
                         FROM GradeInfo
                         WHERE CurrentTerm = 2 OR CurrentTerm = 3
                         ORDER BY CurrentYear, CurrentTerm, CurrentClass""")
     
     cursor.execute("""CREATE VIEW ClassPerformace_Term1 AS
-                        SELECT CurrentClass, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
+                        SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
                         FROM SchoolReport_Term1
                         WHERE CurrentYear = YEAR(now()) AND CurrentTerm = 1
-                        GROUP BY CurrentClass""")
+                        GROUP BY ClassID""")
     
     cursor.execute("""CREATE VIEW ClassPerformace_Term2 AS
-                        SELECT CurrentClass, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
+                        SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
                         FROM SchoolReport_Term2
                         WHERE CurrentYear = YEAR(now()) AND CurrentTerm = 2
-                        GROUP BY CurrentClass""")
+                        GROUP BY ClassID""")
     
     cursor.execute("""CREATE VIEW ClassPerformace_Term3 AS
-                        SELECT CurrentClass, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
+                        SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
                         FROM SchoolReport_Term2
                         WHERE CurrentYear = YEAR(now()) AND CurrentTerm = 3
-                        GROUP BY CurrentClass""")
+                        GROUP BY ClassID""")
     
     cursor.execute("""INSERT INTO ClassTable(ClassName)VALUES('1A'),('1B'),('1C'),('1D'),
                                                             ('2A'),('2B'),('2C'),('2D'),
@@ -164,6 +164,8 @@ def setupDB():
                                                                         (7, 'Foreign Languages'),
                                                                         (8, 'Modern Arts'),
                                                                         (9, 'Information & Communication Technology')""")
+
+    cursor.execute("""INSERT INTO TeacherInfo(TeacherID, TPassword, Usertype)VALUES(9999999, md5('administrator'), 'Admin')""")
 
     db.commit()
 
