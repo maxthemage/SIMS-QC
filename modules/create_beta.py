@@ -27,14 +27,15 @@ def createWindow():
         email = email_entry.get()
         contact = contact_entry.get()
         enrol_date = enrol_entry.get()
-        if (sid or fname or lname or gender or dob or address or email or contact or enrol_date) == "":
-            messagebox.showerror("Error", "All fields must be filled")
+        if ((sid) or (fname) or (lname) or (gender) or (dob) or (address) or (email) or (contact) or (enrol_date)) == "":
+            messagebox.showerror("Error", "All fields must be filled", parent=root)
         else:
             clearFields()
             messagebox.showinfo("Info", "Student record was successfully created")
             pass
 
     root = Toplevel()
+    root.lift()
     root.title("Create Student Record")
     root.geometry("750x600")
     root.iconbitmap("images/logo.ico")
@@ -106,19 +107,23 @@ def createPerformanceWindow():
         course_grade2_entry.delete(0, END)
         course_grade3_entry.delete(0, END)
         exam_entry.delete(0, END)
-        comments_entry.delete(0, END)
+        term = term_entry.delete(0, END)
+        year = year_entry.delete(0, END)
+        formid = formid_entry.delete(0, END)
         
         
     def submit():
         sid = sid_entry.get()
-        subject = subject_entry.get()
+        subjectid = subject_entry.get()
         tid = subject_teacherid_entry.get()
         grade_one = course_grade1_entry.get()
         grade_two = course_grade2_entry.get()
         grade_three = course_grade3_entry.get()
         exam_grade = exam_entry.get()
-        comments = comments_entry.get()
-        if (sid or subject or tid or grade_one or grade_two or grade_three or exam_grade or comments) == "":
+        term = term_entry.get()
+        year = year_entry.get()
+        formid = formid_entry.get()
+        if ((sid) or (subjectid) or (tid) or (grade_one) or (grade_two ) or (grade_three) or (exam_grade) or (term) or (year) or (formid)) == "":
             messagebox.showerror("Error", "All fields must be filled")
         else:
             clearFields()
@@ -152,8 +157,12 @@ def createPerformanceWindow():
     course_grade3_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     exam_entry_title = Label(frame, text="Exam Grade: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     exam_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
-    comments_entry_title = Label(frame, text="Comments: ", font=("Roboto", 14), bg="#ffffff", pady=8)
-    comments_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    term_entry_title = Label(frame, text="Term: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    term_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    year_entry_title = Label(frame, text="Year: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    year_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    formid_entry_title = Label(frame, text="Form ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    formid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
     cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
@@ -176,10 +185,14 @@ def createPerformanceWindow():
     course_grade3_entry.grid(column=1, row=6)
     exam_entry_title.grid(column=0, row=7, sticky=W)
     exam_entry.grid(column=1, row=7)
-    comments_entry_title.grid(column=0, row=8, sticky=W)
-    comments_entry.grid(column=1, row=8)
-    submit_btn.grid(column=1, row=9, padx=(170,0), pady=3)
-    cancel_btn.grid(column=2, row=9, padx=(10,0), pady=3)
+    term_entry_title.grid(column=0, row=8, sticky=W)
+    term_entry.grid(column=1, row=8)
+    year_entry_title.grid(column=0, row=9, sticky=W)
+    year_entry.grid(column=1, row=9)
+    formid_entry_title.grid(column=0, row=10, sticky=W)
+    formid_entry.grid(column=1, row=10)
+    submit_btn.grid(column=1, row=11, padx=(170,0), pady=3)
+    cancel_btn.grid(column=2, row=11, padx=(10,0), pady=3)
 
     root.mainloop()
 
@@ -194,7 +207,8 @@ def createTeacherWindow():
         employ_date_entry.delete(0, END)
         qual_entry.delete(0, END)
         email_entry.delete(0, END)
-        department_entry.delete(0, END)
+        departmentid_entry.delete(0, END)
+        subjectid_entry.delete(0, END)
         
     def submit():
         tid = tid_entry.get()
@@ -205,8 +219,9 @@ def createTeacherWindow():
         employ_date = employ_date_entry.get()
         qualifications = qual_entry.get()
         email = email_entry.get()
-        department = department_entry.get()
-        if (tid or password or fname or lname or address or employ_date or qualifications or email or department) == "":
+        departmentid = departmentid_entry.get()
+        subjectid = subjectid_entry.get()
+        if ((tid) or (password) or (fname) or (lname) or (address) or (employ_date) or (qualifications) or (email) or (departmentid) or (subjectid)) == "":
             messagebox.showerror("Error", "All fields must be filled")
         else:
             clearFields()
@@ -242,8 +257,10 @@ def createTeacherWindow():
     qual_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     email_entry_title = Label(frame, text="Email: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     email_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
-    department_entry_title = Label(frame, text="Department: ", font=("Roboto", 14), bg="#ffffff", pady=8)
-    department_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    departmentid_entry_title = Label(frame, text="Department ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    departmentid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    subjectid_entry_title = Label(frame, text="Subject ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    subjectid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
     cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
@@ -268,10 +285,12 @@ def createTeacherWindow():
     qual_entry.grid(column=1, row=7)
     email_entry_title.grid(column=0, row=8, sticky=W)
     email_entry.grid(column=1, row=8)
-    department_entry_title.grid(column=0, row=9, sticky=W)
-    department_entry.grid(column=1, row=9)
-    submit_btn.grid(column=1, row=10, padx=(170,0), pady=3)
-    cancel_btn.grid(column=2, row=10, padx=(10,0), pady=3)
+    departmentid_entry_title.grid(column=0, row=9, sticky=W)
+    departmentid_entry.grid(column=1, row=9)
+    subjectid_entry_title.grid(column=0, row=10, sticky=W)
+    subjectid_entry.grid(column=1, row=10)
+    submit_btn.grid(column=1, row=11, padx=(170,0), pady=3)
+    cancel_btn.grid(column=2, row=11, padx=(10,0), pady=3)
 
 
     root.mainloop()

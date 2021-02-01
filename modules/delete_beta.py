@@ -54,7 +54,7 @@ def deletePerformance():
         subject_entry.delete(0, END)
     
     def delete():
-        subject = subject_entry.get()
+        subjectid = subject_entry.get()
         if subject == "":
             messagebox.showerror("Error", "Field cannot be empty")
         else:
