@@ -6,7 +6,7 @@ config.read("config.ini")
 database = config["database"]
 
 def setupDB():
-    db = mysql.conect(
+    db = mysql.connect(
         host = database["host"],
         user = database["user"],
         password = database["password"],
@@ -72,7 +72,7 @@ def setupDB():
                         FOREIGN KEY (CourseID) REFERENCES CourseInfo (CourseID) ON DELETE CASCADE ON UPDATE CASCADE)""")
     
     cursor.execute("""CREATE TABLE GradeInfo(
-                        GradeID INT(10) NOT NULL AUTO_INCREMENT,
+                        GradeID INT(100) NOT NULL AUTO_INCREMENT,
                         TeacherID INT(7) NOT NULL, 
                         StudentID INT(7) NOT NULL,
                         CurrentTerm INT(2) NOT NULL,
@@ -82,20 +82,19 @@ def setupDB():
                         Coursework_1 DECIMAL(3,1) NOT NULL, 
                         Coursework_2 DECIMAL(3,1) NOT NULL, 
                         Coursework_3 DECIMAL(3,1) NOT NULL, 
-                        Coursework_Avg DECIMAL(3,1) GENERATED ALWAYS AS ((Coursework_1+Coursework_2+Coursework_3)/3),  
+                        Coursework_Avg DECIMAL(3,1) GENERATED ALWAYS AS ((Coursework_1+Coursework_2+Coursework_3)/3), 
                         ExamGrade DECIMAL(3,1) DEFAULT 0,
                         OverallGrade DECIMAL(3,1) GENERATED ALWAYS AS(IF((CurrentTerm!=1), (Coursework_Avg*0.4) + (ExamGrade*0.6), Coursework_Avg)),
                         Comments TEXT GENERATED ALWAYS AS(IF(OverallGrade >= 90 AND OverallGrade <= 100,"A-Excellent Job", 
                         IF(OverallGrade >= 80 AND OverallGrade <90, "B-Great Job", 
                         IF(OverallGrade>=70 AND OverallGrade < 80, "C-Good Job", 
-                        IF(OverallGrade >=60 AND OverallGrade<70, "D-Try Harder Next Time", "F-Fail")))))
+                        IF(OverallGrade >=60 AND OverallGrade<70, "D-Try Harder Next Time", "F-Fail"))))),
                         DateModified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
                         PRIMARY KEY (GradeID),
                         FOREIGN KEY (TeacherID) REFERENCES TeacherInfo (TeacherID) ON DELETE CASCADE ON UPDATE CASCADE,
-                        FOREIGN KEY (StudentID) REFERENCES StudentInfo (StudentID) ON DELETE CASCADE ON UPDATE CASCADE),
+                        FOREIGN KEY (StudentID) REFERENCES StudentInfo (StudentID) ON DELETE CASCADE ON UPDATE CASCADE,
                         FOREIGN KEY (CourseID) REFERENCES CourseInfo (CourseID) ON DELETE CASCADE ON UPDATE CASCADE,
-                        FOREIGN KEY (CurrentTerm) REFERENCES TermTable (CurrentTerm),
-                        FOREIGN KEY (ClassID) REFERENCES ClassTable (ClassID)""")
+                        FOREIGN KEY (ClassID) REFERENCES ClassTable (ClassID))""")
     
     cursor.execute("DROP VIEW IF EXISTS Teacher_Subject")
     
@@ -108,7 +107,7 @@ def setupDB():
     cursor.execute("DROP VIEW IF EXISTS Users")
     
     cursor.execute("""CREATE VIEW Users AS
-                        SELECT TacherInfo.TeacherID, TeacherInfo.TPassword, TeacherInfo.UserType
+                        SELECT TeacherID, TPassword, UserType
                         FROM TeacherInfo""")
     
     cursor.execute("""DROP VIEW IF EXISTS SchoolReport_Term1,
@@ -127,7 +126,7 @@ def setupDB():
                         SELECT GradeID, TeacherID, StudentID, CurrentTerm, ClassID, CurrentYear, OverallGrade
                         FROM GradeInfo
                         WHERE CurrentTerm = 2 OR CurrentTerm = 3
-                        ORDER BY CurrentYear, CurrentTerm, CurrentClass""")
+                        ORDER BY CurrentYear, CurrentTerm, ClassID""")
     
     cursor.execute("""CREATE VIEW ClassPerformace_Term1 AS
                         SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
@@ -172,3 +171,6 @@ def setupDB():
     db.close()
 
     return True
+
+
+setupDB()
