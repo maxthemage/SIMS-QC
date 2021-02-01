@@ -1,0 +1,176 @@
+import mysql.connector as mysql
+import configparser
+
+config = configparser.RawConfigParser()
+config.read("config.ini")
+database = config["database"]
+
+def setupDB():
+    db = mysql.connect(
+        host = database["host"],
+        user = database["user"],
+        password = database["password"],
+        database = database["schema"]
+    )
+
+    cursor = db.cursor()
+
+    cursor.execute("DROP DATABASE IF EXISTS qcsimsdb")
+    cursor.execute("CREATE DATABASE IF NOT EXISTS qcsimsdb")
+    cursor.execute("USE qcsimsdb")
+    cursor.execute("SET sql_mode = strict_all_tables")
+    
+    cursor.execute("""DROP TABLE IF EXISTS
+                        StudentInfo,
+                        CourseInfo,
+                        TeacherInfo,
+                        GradeInfo,
+                        ClassTable,
+                        DeptTable""")
+
+    cursor.execute("""CREATE TABLE ClassTable(
+                        ClassID INT AUTO_INCREMENT NOT NULL,
+                        ClassName VARCHAR(3) NOT NULL, 
+                        PRIMARY KEY (ClassID))""")
+    
+    cursor.execute("""CREATE TABLE StudentInfo(
+                        StudentID INT(7) NOT NULL,
+                        FirstName VARCHAR(20) NOT NULL,
+                        Surname VARCHAR(20) NOT NULL, 
+                        Gender ENUM ('MALE', 'FEMALE') NOT NULL,
+                        DateOfBirth DATE NOT NULL,
+                        Address TEXT(40) NOT NULL,
+                        ContactInfo INT(7) NOT NULL, 
+                        EnrolmentDate DATE NOT NULL, 
+                        PRIMARY KEY (StudentID))""")
+
+    cursor.execute("""CREATE TABLE DeptTable(
+                        DepartmentID INT(2) NOT NULL,
+                        DeptName VARCHAR(50) NOT NULL,
+                        PRIMARY KEY (DepartmentID))""")
+
+    cursor.execute("""CREATE TABLE CourseInfo(
+                        CourseID VARCHAR(7) NOT NULL,
+                        CourseName TEXT(40) NOT NULL,
+                        DepartmentID INT(2) NOT NULL, 
+                        PRIMARY KEY (CourseID),
+                        FOREIGN KEY (DepartmentID) REFERENCES DeptTable (DepartmentID) ON DELETE CASCADE ON UPDATE CASCADE)""")
+    
+    cursor.execute("""CREATE TABLE TeacherInfo(
+                        TeacherID INT(7) NOT NULL, 
+                        TPassword VARCHAR(500) NOT NULL, 
+                        Usertype ENUM('Admin', 'Client') NOT NULL, 
+                        FirstName VARCHAR(20), 
+                        LastName VARCHAR(20), 
+                        Address TEXT(40),
+                        HireDate DATE,
+                        Qualification TEXT(30),
+                        DepartmentID INT(2), 
+                        CourseID CHAR(7),
+                        PRIMARY KEY (TeacherID),
+                        FOREIGN KEY (DepartmentID) REFERENCES DeptTable (DepartmentID) ON DELETE CASCADE ON UPDATE CASCADE,
+                        FOREIGN KEY (CourseID) REFERENCES CourseInfo (CourseID) ON DELETE CASCADE ON UPDATE CASCADE)""")
+    
+    cursor.execute("""CREATE TABLE GradeInfo(
+                        GradeID INT(100) NOT NULL AUTO_INCREMENT,
+                        TeacherID INT(7) NOT NULL, 
+                        StudentID INT(7) NOT NULL,
+                        CurrentTerm INT(2) NOT NULL,
+                        CurrentYear INT(4) NOT NULL,
+                        ClassID INT(2) NOT NULL,
+                        CourseID VARCHAR(7) NOT NULL, 
+                        Coursework_1 DECIMAL(3,1) NOT NULL, 
+                        Coursework_2 DECIMAL(3,1) NOT NULL, 
+                        Coursework_3 DECIMAL(3,1) NOT NULL, 
+                        Coursework_Avg DECIMAL(3,1) GENERATED ALWAYS AS ((Coursework_1+Coursework_2+Coursework_3)/3), 
+                        ExamGrade DECIMAL(3,1) DEFAULT 0,
+                        OverallGrade DECIMAL(3,1) GENERATED ALWAYS AS(IF((CurrentTerm!=1), (Coursework_Avg*0.4) + (ExamGrade*0.6), Coursework_Avg)),
+                        Comments TEXT GENERATED ALWAYS AS(IF(OverallGrade >= 90 AND OverallGrade <= 100,"A-Excellent Job", 
+                        IF(OverallGrade >= 80 AND OverallGrade <90, "B-Great Job", 
+                        IF(OverallGrade>=70 AND OverallGrade < 80, "C-Good Job", 
+                        IF(OverallGrade >=60 AND OverallGrade<70, "D-Try Harder Next Time", "F-Fail"))))),
+                        DateModified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+                        PRIMARY KEY (GradeID),
+                        FOREIGN KEY (TeacherID) REFERENCES TeacherInfo (TeacherID) ON DELETE CASCADE ON UPDATE CASCADE,
+                        FOREIGN KEY (StudentID) REFERENCES StudentInfo (StudentID) ON DELETE CASCADE ON UPDATE CASCADE,
+                        FOREIGN KEY (CourseID) REFERENCES CourseInfo (CourseID) ON DELETE CASCADE ON UPDATE CASCADE,
+                        FOREIGN KEY (ClassID) REFERENCES ClassTable (ClassID))""")
+    
+    cursor.execute("DROP VIEW IF EXISTS Teacher_Subject")
+    
+    cursor.execute("""CREATE OR REPLACE VIEW Teacher_Subject AS
+                        SELECT CourseInfo.CourseID, CourseInfo.CourseName, TeacherInfo.TeacherID, 
+                        CONCAT(TeacherInfo.FirstName, " ", TeacherInfo.LastName) AS FullName 
+                        FROM CourseInfo INNER JOIN TeacherInfo 
+                        USING (CourseID)""")
+    
+    cursor.execute("DROP VIEW IF EXISTS Users")
+    
+    cursor.execute("""CREATE VIEW Users AS
+                        SELECT TeacherID, TPassword, UserType
+                        FROM TeacherInfo""")
+    
+    cursor.execute("""DROP VIEW IF EXISTS SchoolReport_Term1,
+			SchoolReport_Term2,
+                        ClassPerformance_Term1,
+                        ClassPerformance_Term2, 
+                        ClassPerformance_Term3""")
+    
+    cursor.execute("""CREATE VIEW SchoolReport_Term1 AS
+                        SELECT GradeID, TeacherID, StudentID, CurrentTerm, ClassID, CurrentYear, OverallGrade
+                        FROM GradeInfo
+                        WHERE CurrentTerm = 1
+                        ORDER BY CurrentYear, CurrentTerm, ClassID""")
+    
+    cursor.execute("""CREATE VIEW SchoolReport_Term2 AS
+                        SELECT GradeID, TeacherID, StudentID, CurrentTerm, ClassID, CurrentYear, OverallGrade
+                        FROM GradeInfo
+                        WHERE CurrentTerm = 2 OR CurrentTerm = 3
+                        ORDER BY CurrentYear, CurrentTerm, ClassID""")
+    
+    cursor.execute("""CREATE VIEW ClassPerformace_Term1 AS
+                        SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
+                        FROM SchoolReport_Term1
+                        WHERE CurrentYear = YEAR(now()) AND CurrentTerm = 1
+                        GROUP BY ClassID""")
+    
+    cursor.execute("""CREATE VIEW ClassPerformace_Term2 AS
+                        SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
+                        FROM SchoolReport_Term2
+                        WHERE CurrentYear = YEAR(now()) AND CurrentTerm = 2
+                        GROUP BY ClassID""")
+    
+    cursor.execute("""CREATE VIEW ClassPerformace_Term3 AS
+                        SELECT ClassID, CurrentYear, AVG(OverallGrade) AS Avg_Performance 
+                        FROM SchoolReport_Term2
+                        WHERE CurrentYear = YEAR(now()) AND CurrentTerm = 3
+                        GROUP BY ClassID""")
+    
+    cursor.execute("""INSERT INTO ClassTable(ClassName)VALUES('1A'),('1B'),('1C'),('1D'),
+                                                            ('2A'),('2B'),('2C'),('2D'),
+                                                            ('3A'),('3B'),('3C'),('3D'),
+                                                            ('4A'),('4B'),('4C'),('4D'),
+                                                            ('5A'),('5B'),('5C'),('5D'),
+                                                            ('L6A'),('L6B'),('L6C'),
+                                                            ('U6A'),('U6B')""")
+
+    cursor.execute("""INSERT INTO DeptTable(DepartmentID, DeptName)VALUES(1, 'Linguistics'),
+                                                                        (2, 'Mathematics'),
+                                                                        (3, 'Science'),
+                                                                        (4, 'Humanities'),
+                                                                        (5, 'Technical Vocation'),
+                                                                        (6, 'Business'),
+                                                                        (7, 'Foreign Languages'),
+                                                                        (8, 'Modern Arts'),
+                                                                        (9, 'Information & Communication Technology')""")
+
+    cursor.execute("""INSERT INTO TeacherInfo(TeacherID, TPassword, Usertype)VALUES(9999999, md5('administrator'), 'Admin')""")
+
+    db.commit()
+
+    db.close()
+
+    return True
+
+
+setupDB()

@@ -3,10 +3,9 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
-import time
-from Update import *
 
-def updateStudent():
+
+def createWindow():
     def clearFields():
         student_entry.delete(0, END)
         fname_entry.delete(0, END)
@@ -17,8 +16,8 @@ def updateStudent():
         email_entry.delete(0, END)
         contact_entry.delete(0, END)
         enrol_entry.delete(0, END)
-
-    def update():
+     
+    def submit():
         sid = student_entry.get()
         fname = fname_entry.get()
         lname = lname_entry.get()
@@ -28,31 +27,27 @@ def updateStudent():
         email = email_entry.get()
         contact = contact_entry.get()
         enrol_date = enrol_entry.get()
-        values = [sid, fname, lname, gender, dob, address, email, contact, enrol_date]
-        if sid == "":
-            messagebox.showerror("Error", "SID field cannot be empty")
+        if ((sid) or (fname) or (lname) or (gender) or (dob) or (address) or (email) or (contact) or (enrol_date)) == "":
+            messagebox.showerror("Error", "All fields must be filled", parent=root)
         else:
-            updatestudentinfo(sid, fname, lname, gender, dob, address, contact, enrol_date) #added function
             clearFields()
-            messagebox.showinfo("Info", "Student record was successfully updated")
+            messagebox.showinfo("Info", "Student record was successfully created")
             pass
-        for i in range(len(values)):
-            if values[i] != "":
-                pass
-        
 
     root = Toplevel()
-    root.title("Update Student Record")
+    root.lift()
+    root.title("Create Student Record")
     root.geometry("750x600")
     root.iconbitmap("images/logo.ico")
     root.config(bg="#ffffff")
+    root.resizable(width=False, height=False)
 
 
     title = Label(root, text="Enter Record Information", font=("Times New Roman", 23), pady=15, padx=5, bg="#ffffff")
     background_img = PhotoImage(file="images/logo_trans.png")
     background = Label(root, image=background_img, bg="#ffffff")
     frame = LabelFrame(root, bg="#ffffff", padx=25, pady=10)
-    frame_title = Label(frame, text="Enter Fields you want to Update", font=("Roboto", 18), pady=10, padx=2, bg="#ffffff")
+    frame_title = Label(frame, text="Input Necessary data into Fields", font=("Roboto", 18), pady=10, padx=2, bg="#ffffff")
     student_entry_title = Label(frame, text="Student ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     student_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     fname_entry_title = Label(frame, text="First Name: ", font=("Roboto", 14), bg="#ffffff", pady=8)
@@ -71,7 +66,7 @@ def updateStudent():
     contact_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     enrol_entry_title = Label(frame, text="Enrol. Date: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     enrol_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
-    submit_btn = Button(frame, text="Update", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=update)
+    submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
     cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
@@ -100,11 +95,11 @@ def updateStudent():
     submit_btn.grid(column=1, row=10, padx=(170,0), pady=3)
     cancel_btn.grid(column=2, row=10, padx=(10,0), pady=3)
 
+
     root.mainloop()
 
-def updatePerformance():
+def createPerformanceWindow():
     def clearFields():
-        gradeid_entry.delete(0, END)
         sid_entry.delete(0, END)
         subject_entry.delete(0, END)
         subject_teacherid_entry.delete(0, END)
@@ -112,67 +107,42 @@ def updatePerformance():
         course_grade2_entry.delete(0, END)
         course_grade3_entry.delete(0, END)
         exam_entry.delete(0, END)
-        term_entry.delete(0, END)
-        year_entry.delete(0, END)
-        formid_entry.delete(0, END)
+        term = term_entry.delete(0, END)
+        year = year_entry.delete(0, END)
+        formid = formid_entry.delete(0, END)
         
         
-    def update():
-<<<<<<< HEAD
-        gradeid = gradeid_entry.get()
+    def submit():
         sid = sid_entry.get()
         subjectid = subject_entry.get()
-=======
-        gradeid= gradeid_entry.get() # in order to update a grade record, we need the id for that specific record. so gradeid has to be on the page as an entry field.
-        sid = sid_entry.get()
-        subjectid = subjectid_entry.get() # changed subject to subjectid
->>>>>>> 71fbb76cf0a7c3b936531044ec4089053f57c5ed
         tid = subject_teacherid_entry.get()
-        term = term_entry.get() #added var, create entry field for it
-        year = year_entry.get() #added var, create entry field for it
-        formid = formid_entry.get() #added var, create entry field for it 
         grade_one = course_grade1_entry.get()
         grade_two = course_grade2_entry.get()
         grade_three = course_grade3_entry.get()
         exam_grade = exam_entry.get()
-<<<<<<< HEAD
         term = term_entry.get()
         year = year_entry.get()
         formid = formid_entry.get()
-        values = [gradeid, sid, subjectid, tid, grade_one, grade_two, grade_three, exam_grade, term, year, formid]
-        if gradeid == "":
-            messagebox.showerror("Error", "Grade ID field cannot be empty")
-=======
-        comments = comments_entry.get()
-        values = [gradeid, sid, subjectid, tid, term, year, formid, grade_one, grade_two, grade_three, exam_grade, comments]
-        if gradeid == "":
-            messagebox.showerror("Error", "GRADEID field cannot be empty")
->>>>>>> 71fbb76cf0a7c3b936531044ec4089053f57c5ed
+        if ((sid) or (subjectid) or (tid) or (grade_one) or (grade_two ) or (grade_three) or (exam_grade) or (term) or (year) or (formid)) == "":
+            messagebox.showerror("Error", "All fields must be filled")
         else:
-            updategradeinfo(gradeid, tid, sid, term, year, formid, grade_one, grade_two, grade_three, exam_grade)
             clearFields()
-            messagebox.showinfo("Info", "Performance record was successfully updated")
+            messagebox.showinfo("Info", "Performance record was successfully created")
             pass
-        for i in range(len(values)):
-            if values[i] != "":
-                pass
-
-
+    
     root = Toplevel()
-    root.title("Update Performance Record")
+    root.title("Create Performance Record")
     root.geometry("750x600")
     root.iconbitmap("images/logo.ico")
     root.config(bg="#ffffff")
     root.resizable(width=False, height=False)
 
 
-    title = Label(root, text="Enter Record Information", font=("Times New Roman", 23), padx=5, bg="#ffffff")
+    title = Label(root, text="Enter Record Information", font=("Times New Roman", 23), pady=15, padx=5, bg="#ffffff")
     background_img = PhotoImage(file="images/logo_trans.png")
     background = Label(root, image=background_img, bg="#ffffff")
     frame = LabelFrame(root, bg="#ffffff", padx=25, pady=10)
-    frame_title = Label(frame, text="Enter Fields you want to Update", font=("Roboto", 18), pady=5, padx=2, bg="#ffffff")
-    gradeid_entry_title = Label(frame, text="Grade ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
-    gradeid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    frame_title = Label(frame, text="Input Necessary data into Fields", font=("Roboto", 18), pady=10, padx=2, bg="#ffffff")
     sid_entry_title = Label(frame, text="Student ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     sid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     subject_entry_title = Label(frame, text="Subject ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
@@ -193,7 +163,7 @@ def updatePerformance():
     year_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     formid_entry_title = Label(frame, text="Form ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     formid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
-    update_btn = Button(frame, text="Update", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=update)
+    submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
     cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
@@ -201,76 +171,65 @@ def updatePerformance():
     background.place(x=0, y=45, relwidth=0.5, relheight=1)
     frame.grid(column=0, row=1, padx=(200,0))
     frame_title.grid(column=0, row=0, columnspan=2)
-    gradeid_entry_title.grid(column=0, row=1, sticky=W)
-    gradeid_entry.grid(column=1, row=1)
-    sid_entry_title.grid(column=0, row=2, sticky=W)
-    sid_entry.grid(column=1, row=2)
-    subject_entry_title.grid(column=0, row=3, sticky=W)
-    subject_entry.grid(column=1, row=3)
-    subject_teacherid_entry_title.grid(column=0, row=4, sticky=W)
-    subject_teacherid_entry.grid(column=1, row=4)
-    course_grade1_entry_title.grid(column=0, row=5, sticky=W)
-    course_grade1_entry.grid(column=1, row=5)
-    course_grade2_entry_title.grid(column=0, row=6, sticky=W)
-    course_grade2_entry.grid(column=1, row=6)
-    course_grade3_entry_title.grid(column=0, row=7, sticky=W)
-    course_grade3_entry.grid(column=1, row=7)
-    exam_entry_title.grid(column=0, row=8, sticky=W)
-    exam_entry.grid(column=1, row=8)
-    term_entry_title.grid(column=0, row=9, sticky=W)
-    term_entry.grid(column=1, row=9)
-    year_entry_title.grid(column=0, row=10, sticky=W)
-    year_entry.grid(column=1, row=10)
-    formid_entry_title.grid(column=0, row=11, sticky=W)
-    formid_entry.grid(column=1, row=11)
-    update_btn.grid(column=1, row=12, padx=(170,0), pady=3)
-    cancel_btn.grid(column=2, row=12, padx=(10,0), pady=3)
+    sid_entry_title.grid(column=0, row=1, sticky=W)
+    sid_entry.grid(column=1, row=1)
+    subject_entry_title.grid(column=0, row=2, sticky=W)
+    subject_entry.grid(column=1, row=2)
+    subject_teacherid_entry_title.grid(column=0, row=3, sticky=W)
+    subject_teacherid_entry.grid(column=1, row=3)
+    course_grade1_entry_title.grid(column=0, row=4, sticky=W)
+    course_grade1_entry.grid(column=1, row=4)
+    course_grade2_entry_title.grid(column=0, row=5, sticky=W)
+    course_grade2_entry.grid(column=1, row=5)
+    course_grade3_entry_title.grid(column=0, row=6, sticky=W)
+    course_grade3_entry.grid(column=1, row=6)
+    exam_entry_title.grid(column=0, row=7, sticky=W)
+    exam_entry.grid(column=1, row=7)
+    term_entry_title.grid(column=0, row=8, sticky=W)
+    term_entry.grid(column=1, row=8)
+    year_entry_title.grid(column=0, row=9, sticky=W)
+    year_entry.grid(column=1, row=9)
+    formid_entry_title.grid(column=0, row=10, sticky=W)
+    formid_entry.grid(column=1, row=10)
+    submit_btn.grid(column=1, row=11, padx=(170,0), pady=3)
+    cancel_btn.grid(column=2, row=11, padx=(10,0), pady=3)
 
     root.mainloop()
 
 
-def updateTeacher():
+def createTeacherWindow():
     def clearFields():
         tid_entry.delete(0, END)
         password_entry.delete(0, END)
         fname_entry.delete(0, END)
+        lname_entry.delete(0, END)
         address_entry.delete(0, END)
         employ_date_entry.delete(0, END)
         qual_entry.delete(0, END)
         email_entry.delete(0, END)
-        department_entry.delete(0, END)
-    
-    def update():
+        departmentid_entry.delete(0, END)
+        subjectid_entry.delete(0, END)
+        
+    def submit():
         tid = tid_entry.get()
         password = password_entry.get()
-        user_type = user_type_entry.get() # added var, create field for it
         fname = fname_entry.get()
         lname = lname_entry.get()
         address = address_entry.get()
         employ_date = employ_date_entry.get()
         qualifications = qual_entry.get()
         email = email_entry.get()
-<<<<<<< HEAD
-        departmentid = department_entry.get()
-        values = [tid, password, fname, lname, address, employ_date, qualifications, email, departmentid]
-=======
-        departmentid = departmentid_entry.get() #changed department to departmentid
-        subjectid = subjectid_entry.get() # added var, create field for it
-        values = [tid, password, user_type, fname, lname, address, employ_date, qualifications, email, departmentid, subjectid]
->>>>>>> 71fbb76cf0a7c3b936531044ec4089053f57c5ed
-        if tid == "":
-            messagebox.showerror("Error", "TID field cannot be empty")
+        departmentid = departmentid_entry.get()
+        subjectid = subjectid_entry.get()
+        if ((tid) or (password) or (fname) or (lname) or (address) or (employ_date) or (qualifications) or (email) or (departmentid) or (subjectid)) == "":
+            messagebox.showerror("Error", "All fields must be filled")
         else:
-            updateteacherinfo(tid, password, user_type, fname, lname, address, employ_date, qualifications, deptartmentid, subjectid)
             clearFields()
-            messagebox.showinfo("Info", "Teacher record was successfully updated")
+            messagebox.showinfo("Info", "Teacher record was successfully created")
             pass
-        for i in range(len(values)):
-            if values[i] != "":
-                pass
-
+    
     root = Toplevel()
-    root.title("Update Teacher Record")
+    root.title("Create Teacher Record")
     root.geometry("750x600")
     root.iconbitmap("images/logo.ico")
     root.config(bg="#ffffff")
@@ -281,7 +240,7 @@ def updateTeacher():
     background_img = PhotoImage(file="images/logo_trans.png")
     background = Label(root, image=background_img, bg="#ffffff")
     frame = LabelFrame(root, bg="#ffffff", padx=25, pady=10)
-    frame_title = Label(frame, text="Enter fields you want to Update", font=("Roboto", 18), pady=10, padx=2, bg="#ffffff")
+    frame_title = Label(frame, text="Input Necessary data into Fields", font=("Roboto", 18), pady=10, padx=2, bg="#ffffff")
     tid_entry_title = Label(frame, text="Teacher ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     tid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     password_entry_title = Label(frame, text="Password: ", font=("Roboto", 14), bg="#ffffff", pady=8)
@@ -298,9 +257,11 @@ def updateTeacher():
     qual_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
     email_entry_title = Label(frame, text="Email: ", font=("Roboto", 14), bg="#ffffff", pady=8)
     email_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
-    department_entry_title = Label(frame, text="Department ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
-    department_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
-    submit_btn = Button(frame, text="Update", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=update)
+    departmentid_entry_title = Label(frame, text="Department ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    departmentid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    subjectid_entry_title = Label(frame, text="Subject ID: ", font=("Roboto", 14), bg="#ffffff", pady=8)
+    subjectid_entry = Entry(frame, width=25, font=(11), borderwidth=1.5)
+    submit_btn = Button(frame, text="Create", font=(13), padx=3, pady=2, bg="#138808", fg="#ffffff", command=submit)
     cancel_btn = Button(frame, text="Cancel", font=(13), padx=3, pady=2, command=clearFields)
 
 
@@ -324,10 +285,12 @@ def updateTeacher():
     qual_entry.grid(column=1, row=7)
     email_entry_title.grid(column=0, row=8, sticky=W)
     email_entry.grid(column=1, row=8)
-    department_entry_title.grid(column=0, row=9, sticky=W)
-    department_entry.grid(column=1, row=9)
-    submit_btn.grid(column=1, row=10, padx=(170,0), pady=3)
-    cancel_btn.grid(column=2, row=10, padx=(10,0), pady=3)
+    departmentid_entry_title.grid(column=0, row=9, sticky=W)
+    departmentid_entry.grid(column=1, row=9)
+    subjectid_entry_title.grid(column=0, row=10, sticky=W)
+    subjectid_entry.grid(column=1, row=10)
+    submit_btn.grid(column=1, row=11, padx=(170,0), pady=3)
+    cancel_btn.grid(column=2, row=11, padx=(10,0), pady=3)
 
 
     root.mainloop()

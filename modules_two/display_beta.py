@@ -3,7 +3,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import ttk
-from Read import *
 
 def displayStudent():
     #Root window configurations
@@ -17,14 +16,14 @@ def displayStudent():
 
     #Dummy data for Treeview
     heads = ["Student ID", "First name", "Last name", "Gender", "DOB", "Address", "Enrol. Date", "Email", "Contact #"]
-    #char = "QC1A"
-    #sid = 93550
-    #emails = ["grossman@msn.com", "hardin@comcast.net", "aaribaud@gmail.com", "hikoza@me.com", "microfab@me.com", "melnik@gmail.com", "morain@comcast.net", "yamla@icloud.com", "salesgeek@hotmail.com","drewf@verizon.net", "lipeng@me.com", "johnh@comcast.net", "policies@att.net", "munge@yahoo.com", "dcoppit@verizon.net", "fairbank@yahoo.com", "gordonjcp@aol.com", "mkearl@gmail.com","aegreene@icloud.com","bowmanbs@hotmail.com"]
-    #fnames = ["Beverly", "Cathryn", "Robbi", "Al", "Sterling", "Jamee", "Desirae", "Vonnie", "Melynda", "Rocio", "Dara", "Marissa", "Delila", "Catherin", "Agustina",  "Nichole", "Faries",  "Elena", "Corinna",  "Rusty"]
-    #lnames = ["Frakes", "Mankin", "Denby", "Forsman", "Schwartzkopf", "Hallinan", "Castenada", "Zoller", "Calderon", "Bence", "Matis", "Scherf", "Longnecker", "Fedele", "Aceto", "Mclachlan", "Augusta", "Kahle", "Nell", "Needles"]
-    #gender = ["male", "male", "female", "male", "female", "male", "female", "male", "female", "female", "male", "female", "male", "female", "male", "female", "male", "female", "male", "female"]
-    #date = "2021-01-24"
-    #number = 5926089341
+    char = "QC1A"
+    sid = 93550
+    emails = ["grossman@msn.com", "hardin@comcast.net", "aaribaud@gmail.com", "hikoza@me.com", "microfab@me.com", "melnik@gmail.com", "morain@comcast.net", "yamla@icloud.com", "salesgeek@hotmail.com","drewf@verizon.net", "lipeng@me.com", "johnh@comcast.net", "policies@att.net", "munge@yahoo.com", "dcoppit@verizon.net", "fairbank@yahoo.com", "gordonjcp@aol.com", "mkearl@gmail.com","aegreene@icloud.com","bowmanbs@hotmail.com"]
+    fnames = ["Beverly", "Cathryn", "Robbi", "Al", "Sterling", "Jamee", "Desirae", "Vonnie", "Melynda", "Rocio", "Dara", "Marissa", "Delila", "Catherin", "Agustina",  "Nichole", "Faries",  "Elena", "Corinna",  "Rusty"]
+    lnames = ["Frakes", "Mankin", "Denby", "Forsman", "Schwartzkopf", "Hallinan", "Castenada", "Zoller", "Calderon", "Bence", "Matis", "Scherf", "Longnecker", "Fedele", "Aceto", "Mclachlan", "Augusta", "Kahle", "Nell", "Needles"]
+    gender = ["male", "male", "female", "male", "female", "male", "female", "male", "female", "female", "male", "female", "male", "female", "male", "female", "male", "female", "male", "female"]
+    date = "2021-01-24"
+    number = 5926089341
     dummy = "###########"
 
 
@@ -46,12 +45,9 @@ def displayStudent():
         main_tree.column(f"{heads[i]}", width=130, anchor=CENTER)
         main_tree.heading(f"{heads[i]}", text=heads[i], anchor=CENTER)
 
-   # for i in range(len(fnames)):
-    #    main_tree.insert(parent="", index="end", iid=i, text="", values=(char+str(sid), fnames[i], lnames[i], gender[i], date, dummy, date, emails[i], number))
-    records = readstudents()
+    for i in range(len(fnames)):
+        main_tree.insert(parent="", index="end", iid=i, text="", values=(char+str(sid), fnames[i], lnames[i], gender[i], date, dummy, date, emails[i], number))
 
-    for record in records:
-        main_tree.insert('', END, values = record)
 
     #Putting elements on the screen
     page_title.grid(column=0, row=0, sticky=W, padx=32)

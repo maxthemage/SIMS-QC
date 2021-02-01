@@ -3,7 +3,7 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
-
+from Create import *
 
 def createWindow():
     def clearFields():
@@ -30,6 +30,7 @@ def createWindow():
         if ((sid) or (fname) or (lname) or (gender) or (dob) or (address) or (email) or (contact) or (enrol_date)) == "":
             messagebox.showerror("Error", "All fields must be filled", parent=root)
         else:
+            studentinfo(sid, fname, lname, gender, dob, address, contact, enrol_date)
             clearFields()
             messagebox.showinfo("Info", "Student record was successfully created")
             pass
@@ -114,8 +115,15 @@ def createPerformanceWindow():
         
     def submit():
         sid = sid_entry.get()
+<<<<<<< HEAD
         subjectid = subject_entry.get()
+=======
+        subjectid = subjectid_entry.get() #changed subject to subjectid
+>>>>>>> 71fbb76cf0a7c3b936531044ec4089053f57c5ed
         tid = subject_teacherid_entry.get()
+        term = term_entry.get() #added var, create entry field for it
+        year = year_entry.get() #added var, create entry field for it
+        formid = formid_entry.get() #added var, create entry field for it
         grade_one = course_grade1_entry.get()
         grade_two = course_grade2_entry.get()
         grade_three = course_grade3_entry.get()
@@ -126,6 +134,7 @@ def createPerformanceWindow():
         if ((sid) or (subjectid) or (tid) or (grade_one) or (grade_two ) or (grade_three) or (exam_grade) or (term) or (year) or (formid)) == "":
             messagebox.showerror("Error", "All fields must be filled")
         else:
+            gradeinfo(tid, sid, term, year, formid, subjectid, grade_one, grade_two, grade_three, exam_grade)
             clearFields()
             messagebox.showinfo("Info", "Performance record was successfully created")
             pass
@@ -213,17 +222,25 @@ def createTeacherWindow():
     def submit():
         tid = tid_entry.get()
         password = password_entry.get()
+        user_type = user_type_entry.get() # added var, created entry field for it
         fname = fname_entry.get()
         lname = lname_entry.get()
         address = address_entry.get()
         employ_date = employ_date_entry.get()
         qualifications = qual_entry.get()
         email = email_entry.get()
+<<<<<<< HEAD
         departmentid = departmentid_entry.get()
         subjectid = subjectid_entry.get()
         if ((tid) or (password) or (fname) or (lname) or (address) or (employ_date) or (qualifications) or (email) or (departmentid) or (subjectid)) == "":
+=======
+        departmentid = departmentid_entry.get() #changed department tp departmentid
+        subjectid = subjectid_entry.get() #added subjectid, create entry field for it
+        if (tid or password or fname or lname or address or employ_date or qualifications or email or department) == "":
+>>>>>>> 71fbb76cf0a7c3b936531044ec4089053f57c5ed
             messagebox.showerror("Error", "All fields must be filled")
         else:
+            teacherinfo(tid, password, user_type, fname, lname, address, employ_date, qualifications, departmentid, subjectid)
             clearFields()
             messagebox.showinfo("Info", "Teacher record was successfully created")
             pass

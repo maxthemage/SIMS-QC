@@ -3,7 +3,6 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
-from Delete import *
 
 def deleteStudent():
     def clearField():
@@ -14,7 +13,6 @@ def deleteStudent():
         if sid == "":
             messagebox.showerror("Error", "Field cannot be empty")
         else:
-            deletestudentinfo(sid)
             clearField()
             messagebox.showinfo("Info", "Student record was successfully deleted")
             pass
@@ -53,19 +51,13 @@ def deleteStudent():
 
 def deletePerformance():
     def clearField():
-        gradeid_entry.delete(0, END) #changed to gradeid since that is what is needed to remove a record
+        subject_entry.delete(0, END)
     
     def delete():
-<<<<<<< HEAD
         subjectid = subject_entry.get()
         if subject == "":
-=======
-        gradeid = subjectid_entry.get()
-        if gradeid == "":
->>>>>>> 71fbb76cf0a7c3b936531044ec4089053f57c5ed
             messagebox.showerror("Error", "Field cannot be empty")
         else:
-            deletegradeinfo(gradeid)
             clearField()
             messagebox.showinfo("Info", "Performance record was successfully deleted")
             pass
@@ -111,7 +103,6 @@ def deleteTeacher():
         if tid == "":
             messagebox.showerror("Error", "Field cannot be empty")
         else:
-            deleteteacherinfo(tid)
             clearField()
             messagebox.showinfo("Info", "Teacher record was successfully deleted")
             pass
